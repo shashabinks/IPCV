@@ -31,20 +31,17 @@ int main( int argc, char** argv )
  cvtColor( image, gray_image, CV_BGR2GRAY );
 
  Mat carBlurred;
- GaussianBlur(gray_image,3,carBlurred);
+ GaussianBlur(gray_image,5,carBlurred);
 
- //cvtColor(carBlurred,carBlurred,CV_GRAY2BGR);
+ for ( int y = 0; y <gray_image.rows;y++){
+	 for (int x = 0; x < gray_image.cols;x++){
+		 int original = gray_image.at<uchar>(y , x);
+		 int detail = original - carBlurred.at<uchar>(y,x);
+		 int newPixel = (original + detail * 8);
 
- /*double sigma = 1, threshold = 5, amount = 1;
- Mat sharp;
- addWeighted(image, 1+ amount, carBlurred, -amount,0,sharp );
-*/
-// write
-
- /*double sigma = 1, threshold = 34, amount = 34;
- Mat lowContrastMask = abs(image - carBlurred) < threshold;
- Mat sharpened = image*(1+amount) + carBlurred*(-amount);
- image.copyTo(sharpened,lowContrastMask);*/
+		 carBlurred.at<uchar>(y , x) = newPixel;
+	 }
+ }
 
  double sigma=5, amount=1;
  Mat sharp1;
@@ -56,9 +53,6 @@ int main( int argc, char** argv )
  image3.copyTo(sharp1, lowContrastMask);
 
  image3 = image3 - lowContrastMask;
-
- //Mat detail = image - carBlurred;
- //Mat sharpern = image + 1.2 * detail;
 
  Mat sharp2;
  Mat sharpening_kernel = (Mat_<double>(3, 3) << -1, -1, -1,  //convolute twice to get proper sharp image then apply unmask filter
@@ -72,23 +66,6 @@ sharpening_kernel = (Mat_<double>(3, 3) << -1, -1, -1,
 filter2D(sharp2, sharp2, -1, sharpening_kernel);
 
 Mat result = sharp2; //- carBlurred;
-
-//Mat sharpe = image + image;
-
- //Mat sharp_image = image + image;
- //Mat sharp_fix;
- //Mat blur_fix;
-
-
- //Mat result;
-
- //result = image;
-
- //absdiff(sharp_fix, blur_fix ,result);
-
- //cv::addWeighted(carBlurred,1.5,image,-0.5,0,image);
-
- //imwrite("sharp.jpg",sharp_image);
  
  cvtColor(image3,image3,CV_GRAY2BGR);
 
@@ -103,11 +80,11 @@ Mat result = sharp2; //- carBlurred;
  
  cvtColor(result, result, CV_GRAY2RGB);
  */
- imwrite("test2.jpg", sharp1);
- imwrite("image3.jpg", image3);
- imwrite("lowcon.jpg", lowContrastMask);
+ //imwrite("test2.jpg", sharp1);
+ //imwrite("image3.jpg", image3);
+ //imwrite("lowcon.jpg", lowContrastMask);
 
- imwrite("sharper.jpg",result);
+ //imwrite("sharper.jpg",result);
 
  return 0;
 }
