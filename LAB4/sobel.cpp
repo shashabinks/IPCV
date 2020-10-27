@@ -44,13 +44,11 @@ void x_direction(Mat input,cv::Mat &output_x){
 }
 
 void y_direction(Mat input, cv::Mat &output_y){
-    
-
 
     output_y = input.clone();
 
     float Kernel[3][3] = {   //Using blur/sharp
-                            {-1.0, -2.0, -1.0},
+                            {-1.0,-2.0, -1.0},
                             {0.0, 0.0, 0.0},
                             {1.0, 2.0, 1.0}
                            }; 
@@ -79,10 +77,6 @@ void y_direction(Mat input, cv::Mat &output_y){
 
    }
  } 
-
- //imwrite("yy.jpg",output_y);
-
- 
 }
 
 void gradient_im(Mat image1, Mat image2, cv::Mat &output_g){
@@ -140,8 +134,6 @@ void phase(Mat i1, Mat i2 , cv::Mat &output){
 
 }
 
-
-
 void sobel(Mat im1){
     Mat im2;
     Mat imy;
@@ -153,7 +145,6 @@ void sobel(Mat im1){
     imwrite("ydir.jpg",imy);
 
     x_direction(im1,imx);
-    imwrite("ydir2.jpg",imy);
     imwrite("xdir.jpg",imx);
 
     gradient_im(imx,imy,grad);
@@ -166,17 +157,7 @@ void sobel(Mat im1){
 int main() { 
 
   // Read image from file
-  Mat image = imread("Lena.png", CV_LOAD_IMAGE_GRAYSCALE);
-  Mat result;
-
-  float Kernel[3][3] = {   //Using blur/sharp
-                            {-1.0, 0.0, 1.0},
-                            {-2.0, 0.0, 2.0},
-                            {-1.0, 0.0, 1.0}
-                           }; 
-
-  result = image.clone();
-
+  Mat image = imread("coins1.png", CV_LOAD_IMAGE_GRAYSCALE);
   sobel(image);
   return 0;
 }
