@@ -157,10 +157,10 @@ void sobel(Mat im1){
     imwrite("xdir.jpg",imx);
 
     gradient_im(imx,imy,grad);
-    imwrite("gimg.jpg",grad);
+    imwrite("mag_img.jpg",grad);
 
     phase(imx,imy,phse);
-    imwrite("pimg.jpg",phse);
+    imwrite("direction_img.jpg",phse);
 }
 
 int main() { 
